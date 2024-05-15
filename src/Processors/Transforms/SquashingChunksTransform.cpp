@@ -62,29 +62,28 @@ SimpleSquashingChunksTransform::SimpleSquashingChunksTransform(
 
 void SimpleSquashingChunksTransform::consume(Chunk chunk)
 {
-    current_block = squashing.add(getInputPort().getHeader().cloneWithColumns(chunk.detachColumns()));
+    Block current_block = squashing.add(getInputPort().getHeader().cloneWithColumns(chunk.detachColumns()));
+    current_chunk.setColumns(current_block.getColumns(), current_block.rows());
 }
 
 Chunk SimpleSquashingChunksTransform::generate()
 {
-    if (!current_block)
+    if (!current_chunk)
         throw Exception(ErrorCodes::LOGICAL_ERROR, "Can't generate chunk in SimpleSquashingChunksTransform");
 
-    Chunk result(current_block.getColumns(), current_block.rows());
-    current_block.clear();
-    return result;
+    return std::move(current_chunk);
 }
 
-
-bool SimpleSquashingChunksTransform::canGenerate(bool is_read_finished)
+bool SimpleSquashingChunksTransform::canGenerate()
 {
-    if (current_block)
-        return true;
+    return !current_chunk.empty();
+}
 
-    if (is_read_finished)
-        current_block = squashing.add({});
-
-    return bool(current_block);
+Chunk SimpleSquashingChunksTransform::getRemaining()
+{
+    Block current_block = squashing.add({});
+    current_chunk.setColumns(current_block.getColumns(), current_block.rows());
+    return std::move(current_chunk);
 }
 
 }
