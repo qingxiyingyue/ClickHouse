@@ -30,8 +30,6 @@ Checks: [
   '-bugprone-not-null-terminated-result',
   '-bugprone-reserved-identifier', # useful but too slow, TODO retry when https://reviews.llvm.org/rG1c282052624f9d0bd273bde0b47b30c96699c6c7 is merged
   '-bugprone-unchecked-optional-access',
-  '-bugprone-crtp-constructor-accessibility',
-  '-bugprone-suspicious-stringview-data-usage',
 
   '-cert-dcl16-c',
   '-cert-dcl37-c',
@@ -93,7 +91,6 @@ Checks: [
   '-misc-non-private-member-variables-in-classes',
   '-misc-confusable-identifiers', # useful but slooo
   '-misc-use-anonymous-namespace',
-  '-misc-use-internal-linkage',
 
   '-modernize-avoid-c-arrays',
   '-modernize-concat-nested-namespaces',
