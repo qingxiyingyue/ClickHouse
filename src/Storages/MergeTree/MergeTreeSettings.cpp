@@ -481,7 +481,7 @@ void MergeTreeColumnSettings::validate(const SettingsChanges & changes)
 }
 
 #define INITIALIZE_SETTING_EXTERN(TYPE, NAME, DEFAULT, DESCRIPTION, FLAGS) \
-    MergeTreeSettings ## TYPE NAME = & MergeTreeSettings ## Impl :: NAME;
+    [[maybe_unused]] static MergeTreeSettings ## TYPE NAME = & MergeTreeSettings ## Impl :: NAME;
 
 namespace MergeTreeSetting
 {

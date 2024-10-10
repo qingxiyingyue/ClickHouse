@@ -6072,7 +6072,7 @@ void SettingsImpl::applyCompatibilitySetting(const String & compatibility_value)
 }
 
 #define INITIALIZE_SETTING_EXTERN(TYPE, NAME, DEFAULT, DESCRIPTION, FLAGS) \
-    Settings ## TYPE NAME = & Settings ## Impl :: NAME;
+    [[maybe_unused]] static Settings ## TYPE NAME = & Settings ## Impl :: NAME;
 
 namespace Setting
 {
